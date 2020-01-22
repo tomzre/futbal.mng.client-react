@@ -1,13 +1,18 @@
 import React from 'react';
 import { AuthenticationContext } from '@axa-fr/react-oidc-context';
 import { Link } from 'react-router-dom';
+import Button from '@material-ui/core/Button'
 
 const headerStyle = {
   display: 'flex',
-  backgroundColor: '#26c6da',
+  backgroundColor: '#8aaee6',
   justifyContent: 'space-between',
   padding: 10,
 };
+
+const buttonStyle = {
+  height: 30
+}
 
 const linkStyle = {
   color: 'white',
@@ -20,11 +25,11 @@ export default () => (
       {props => {
         return (
           <div style={headerStyle}>
-            <h3>
+            <h4>
               <Link style={linkStyle} to="/">
                 HOME
               </Link>
-            </h3>
+            </h4>
 
             {props.oidcUser || !props.isEnabled ? (
               <ul>
@@ -38,10 +43,15 @@ export default () => (
                     Admin
                   </Link>
                 </li>
-                <button onClick={props.logout}>logout</button>
+                <Button onClick={props.logout}>logout</Button>
               </ul>
             ) : (
-              <button onClick={props.login}>login</button>
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                style={buttonStyle}
+              href="/signin">login</Button>
             )}
           </div>
         );

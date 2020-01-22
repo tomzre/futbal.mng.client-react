@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose, withProps } from 'recompose';
 import { withAuthentication } from '@axa-fr/react-oidc-context-fetch';
+import Button from '@material-ui/core/Button'
 
 const fetchMock = status => (url, options) => {
   return new Promise(resolve => {
@@ -69,9 +70,9 @@ const enhanceFetch = compose(
   })),
 );
 const ButtonFetch = ({ handleClick }) => (
-  <button onClick={handleClick} type="button">
+  <Button onClick={handleClick} type="button">
     Simulate Fetch
-  </button>
+  </Button>
 );
 
 const ButtonFetchEnhance = enhanceFetch(ButtonFetch);
