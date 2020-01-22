@@ -64,7 +64,7 @@ class Login extends React.Component
                 <LockOutlinedIcon />
               </Avatar>
               <Typography component="h1" variant="h5">
-                Sign ip
+                Sign in
               </Typography>
               <form className={classes.form} noValidate onSubmit={this.handleSubmit}>
                 <Grid container spacing={2}>
