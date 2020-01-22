@@ -6,7 +6,7 @@ replicaCount: 1
 
 image:
   repository: tomzreacr.azurecr.io/futbalmng-client
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""

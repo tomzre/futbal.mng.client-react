@@ -12,10 +12,10 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: Build Docker Image
-      run: docker build . -t tomzreacr.azurecr.io/futbalclient 
+      run: docker build . -t tomzreacr.azurecr.io/futbalmng-client 
     - name: login to CR
       run: docker login -u tomzreacr -p $CI_REGISTRY_TOKEN tomzreacr.azurecr.io
       env:
           CI_REGISTRY_TOKEN: ${{ secrets.CONTAINER_PWD }}
     - name: push to CR
-      run: docker push tomzreacr.azurecr.io/futbalclient
+      run: docker push tomzreacr.azurecr.io/futbalmng-client
