@@ -46,12 +46,12 @@ export default () => (
                 <Button onClick={props.logout}>logout</Button>
               </ul>
             ) : (
-              <Button
+              <Link
                 type="submit"
                 variant="contained"
                 color="primary"
                 style={buttonStyle}
-              href="/signin">login</Button>
+              to="/signin">login</Link>
             )}
           </div>
         );
