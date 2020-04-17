@@ -15,6 +15,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
+import configuration from '../../configuration';
+import Oidc from 'oidc-client';
 
 
 class Login extends React.Component 
@@ -37,8 +39,17 @@ class Login extends React.Component
     }
 
     async handleSubmit(event) {
-        event.preventDefault();
-        const response = await fetch('http://localhost:5000/api/account/login', {
+
+      event.preventDefault();
+        var mgr = new Oidc.UserManager(configuration);
+
+        mgr.signinRedirect();
+
+        if(this.state.email.length <= 0 || this.state.password.length <= 0)
+        {
+          return;
+        }
+        await fetch('http://localhost:5000/api/authenticate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,8 +58,8 @@ class Login extends React.Component
             body: JSON.stringify(
                 {
                     password: this.state.password,
-                    email: this.state.email,
-                    returnUrl: "http://localhost:3000/callback"
+                    username: this.state.email,
+                    returnUrl: "http://localhost:3000/connect/authorize"
                 }
             )
         });
