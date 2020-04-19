@@ -1,9 +1,26 @@
 import * as React from 'react';
+import { CallbackComponent } from "redux-oidc";
+import { push } from "react-router-redux";
+import userManager from '../../Utils/UserManager'
+import { connect } from 'react-redux';
 
-const CustomCallback = () => (
-  <div>
-    <h1>This is a Custom Callback component</h1>
-  </div>
-);
+class CustomCallback extends React.Component
+{
 
-export default CustomCallback;
+  render(){
+    return (
+      <CallbackComponent
+      userManager={userManager}
+      successCallback={() => this.props.dispatch(push("/"))}
+      errorCallback={error => {
+        this.props.dispatch(push("/"));
+        console.error(error);
+      }}
+      >
+      <div>Redirecting...</div>
+    </CallbackComponent>
+    );
+  }
+}
+
+export default connect()(CustomCallback);

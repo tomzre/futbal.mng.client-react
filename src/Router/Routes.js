@@ -6,6 +6,7 @@ import Login from '../Pages/Login';
 import Register from '../Pages/Register'
 import store from '../store';
 import { syncHistoryWithStore } from 'react-router-redux';
+import CustomCallback from '../Pages/Callback'
 
 const PageNotFound = () => (
   <div>Page not found</div>
@@ -18,6 +19,7 @@ const Routes = () => (
     <Route exact path="/" component={Home} />
     <Route path="/signin" component={Login} />
     <Route path="/signup" component={Register} />
+    <Route path="/callback" component={CustomCallback} />
     {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />
     <Route path="/home" component={Home} /> */}

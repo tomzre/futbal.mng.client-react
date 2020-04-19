@@ -33,6 +33,7 @@ class Register extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
+
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -155,6 +156,10 @@ class Register extends React.Component {
               variant="contained"
               color="primary"
               className={classes.submit}
+              disabled={this.state.password.length === 0 
+                || this.state.username.length === 0 
+                || this.state.lastName.length === 0 
+                || this.state.email.length === 0}
             >
               Sign Up
           </Button>
@@ -172,7 +177,7 @@ class Register extends React.Component {
         </div>
         {
           this.state.formErrors.map((error) =>
-            <Alert severity="error" key={error.id}>
+            <Alert onClose={() => {}} severity="error" key={error.id}>
               {error.description}
             </Alert>)
         }

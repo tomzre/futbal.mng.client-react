@@ -15,8 +15,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
-import configuration from '../../configuration';
-import Oidc from 'oidc-client';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import userManager from '../../Utils/UserManager';
 
 
 class Login extends React.Component 
@@ -27,8 +28,15 @@ class Login extends React.Component
             email: '',
             password: ''
         }
+        const { user } = props;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        if((!this.props.user 
+          || this.props.user.expired) 
+          && !this.getQueryVariable('ReturnUrl'))
+        {
+          userManager.signinRedirect();  
+        }
     }
     handleChange(event) {
         const target = event.target;
@@ -37,18 +45,26 @@ class Login extends React.Component
 
         this.setState({ [name]: value });
     }
+    
+    getQueryVariable(variable) {
+      const query = window.location.search.substring(1);
+      console.log(query);
+      const vars = query.split('&');
+      console.log(vars);
+      for (let i = 0; i < vars.length; i++) {
+        let pair = vars[i].split('=');
+        if (decodeURIComponent(pair[0]) === variable) {
+          return decodeURIComponent(pair[1]);
+        }
+      }
+    }
 
     async handleSubmit(event) {
 
       event.preventDefault();
-        var mgr = new Oidc.UserManager(configuration);
+        console.log(this.getQueryVariable('ReturnUrl'));
 
-        mgr.signinRedirect();
-
-        if(this.state.email.length <= 0 || this.state.password.length <= 0)
-        {
-          return;
-        }
+        //mgr.signinRedirect();
         await fetch('http://localhost:5000/api/authenticate', {
             method: 'POST',
             headers: {
@@ -59,7 +75,8 @@ class Login extends React.Component
                 {
                     password: this.state.password,
                     username: this.state.email,
-                    returnUrl: "http://localhost:3000/connect/authorize"
+                    returnUrl: this.getQueryVariable('ReturnUrl')
+                    //"http://localhost:3000/connect/authorize"
                 }
             )
         });
@@ -115,6 +132,7 @@ class Login extends React.Component
                   variant="contained"
                   color="primary"
                   className={classes.submit}
+                  disabled={this.state.email.length === 0 || this.state.password.length <= 6}
                 >
                   Sign In
                 </Button>
@@ -162,4 +180,18 @@ const useStyles = theme => ({
     classes: PropTypes.object.isRequired,
   };
 
-export default withStyles(useStyles)(Login);
+//export default withStyles(useStyles)(Login);
+
+function mapStateToProps(state) {
+  return {
+    user: state.oidc.user
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  };
+}
+
+export default  connect(mapStateToProps, mapDispatchToProps)(withStyles(useStyles)(Login));

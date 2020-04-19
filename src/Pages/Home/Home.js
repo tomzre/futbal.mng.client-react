@@ -3,18 +3,52 @@ import { Link } from 'react-router-dom';
 import { compose, withProps } from 'recompose';
 // import { withAuthentication } from '@axa-fr/react-oidc-context-fetch';
 import Button from '@material-ui/core/Button'
+import Oidc from 'oidc-client';
+import configuration from '../../configuration';
+import userManager from '../../Utils/UserManager'
+import { connect } from 'react-redux';
+import Header from '../../Layout/Header';
 
-const fetchMock = status => (url, options) => {
-  return new Promise(resolve => {
-    setTimeout(
-      () =>
-        resolve({
-          status,
-        }),
-      350,
-    );
-  });
-};
+
+
+
+class Home extends React.Component
+{
+constructor(props)
+{
+  super(props);
+  const { user } = props;
+}
+  componentDidMount(){
+    userManager.signinRedirect();
+    if(!this.props.user || this.props.user.expired)
+    {
+      this.props.history.push('/signin')
+    }
+    console.log(this.props.user);
+  }
+
+  render() {
+    return ( 
+      <div>
+      <h1>Home</h1>
+      <p>Unprotected home page</p>
+      <p>
+        <Link to='/signin'>
+          Login
+          </Link>
+      </p>
+      <p>
+        
+      </p>
+      <p>
+        
+      </p>
+    </div>);
+  }
+}
+
+
 
 // const enhance401 = compose(
 //   withAuthentication(fetchMock(401)),
@@ -78,22 +112,16 @@ const fetchMock = status => (url, options) => {
 
 //const ButtonFetchEnhance = enhanceFetch(ButtonFetch);
 
-const Home = () => (
-  <div>
-    <h1>Home</h1>
-    <p>Unprotected home page</p>
-    <p>
-      <Link to='/signin'>
-        Login
-        </Link>
-    </p>
-    <p>
-      
-    </p>
-    <p>
-      
-    </p>
-  </div>
-);
+function mapStateToProps(state) {
+  return {
+    user: state.oidc.user
+  };
+}
 
-export default Home;
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
