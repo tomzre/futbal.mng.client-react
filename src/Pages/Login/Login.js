@@ -16,7 +16,6 @@ import Container from '@material-ui/core/Container';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import userManager from '../../Utils/UserManager';
 
 
@@ -45,7 +44,7 @@ class Login extends React.Component
 
         this.setState({ [name]: value });
     }
-    
+
     getQueryVariable(variable) {
       const query = window.location.search.substring(1);
       console.log(query);
@@ -65,7 +64,7 @@ class Login extends React.Component
         console.log(this.getQueryVariable('ReturnUrl'));
 
         //mgr.signinRedirect();
-        await fetch('http://localhost:5000/api/authenticate', {
+        var response = await fetch('http://localhost:5000/api/authenticate', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -76,10 +75,14 @@ class Login extends React.Component
                     password: this.state.password,
                     username: this.state.email,
                     returnUrl: this.getQueryVariable('ReturnUrl')
-                    //"http://localhost:3000/connect/authorize"
                 }
             )
         });
+
+        if(response.ok)
+        {
+          this.props.history.push(response.redirectUrl);
+        }
 
     }
     render() {

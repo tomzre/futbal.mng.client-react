@@ -23,4 +23,14 @@ class CustomCallback extends React.Component
   }
 }
 
-export default connect()(CustomCallback);
+function mapStateToProps(state) {
+  return { };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    dispatch
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomCallback);
