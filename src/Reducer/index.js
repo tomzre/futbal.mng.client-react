@@ -5,7 +5,7 @@ import subscriptionsReducer from './subscriptions';
 
 const reducer = (history) => combineReducers(
   {
-    routing: connectRouter(history),
+    router: connectRouter(history),
     oidc: oidcReducer,
     subscriptions: subscriptionsReducer
   }

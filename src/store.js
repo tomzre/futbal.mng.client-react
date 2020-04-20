@@ -8,15 +8,10 @@ import { createUserManager, loadUser } from "redux-oidc";
 import reducer from "./Reducer";
 import userManager from "./Utils/UserManager";
 import { createBrowserHistory } from 'history'
-import { routerMiddleware } from 'connected-react-router'
+import { routerMiddleware } from 'connected-react-router/immutable'
 
 
 export const history = createBrowserHistory()
-
-
-
-// create the middleware with the userManager
-// const oidcMiddleware = createOidcMiddleware(userManager);
 
 const loggerMiddleware = store => next => action => {
   console.log("Action type:", action.type);

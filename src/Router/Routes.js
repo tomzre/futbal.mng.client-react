@@ -1,20 +1,19 @@
 import React from 'react';
-import { ConnectedRouter } from 'connected-react-router'
+import { ConnectedRouter } from 'connected-react-router/immutable'
 import { Route, BrowserRouter as Router } from 'react-router';
 import Home from '../Pages/Home';
 import Dashboard from '../Pages/Dashboard';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register'
-import store, { history }  from '../store';
-import { syncHistoryWithStore } from 'react-router-redux';
-import { createBrowserHistory } from 'history'
+import { history }  from '../store';
+
 import CustomCallback from '../Pages/Callback'
+import { createBrowserHistory } from 'history'
+
 
 const PageNotFound = () => (
   <div>Page not found</div>
 );
-
-//const history = syncHistoryWithStore(Router, store);
 
 const Routes = () => (
   <ConnectedRouter history={history} >
