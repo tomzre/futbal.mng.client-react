@@ -20,10 +20,10 @@ constructor(props)
   const { user } = props;
 }
   componentDidMount(){
-    userManager.signinRedirect();
+    //userManager.signinRedirect();
     if(!this.props.user || this.props.user.expired)
     {
-      this.props.history.push('/signin')
+      //this.props.history.push('/signin')
     }
     console.log(this.props.user);
   }

@@ -17,6 +17,7 @@ import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import userManager from '../../Utils/UserManager';
+import { push } from 'connected-react-router'
 
 
 class Login extends React.Component 
@@ -47,9 +48,7 @@ class Login extends React.Component
 
     getQueryVariable(variable) {
       const query = window.location.search.substring(1);
-      console.log(query);
       const vars = query.split('&');
-      console.log(vars);
       for (let i = 0; i < vars.length; i++) {
         let pair = vars[i].split('=');
         if (decodeURIComponent(pair[0]) === variable) {
@@ -61,9 +60,6 @@ class Login extends React.Component
     async handleSubmit(event) {
 
       event.preventDefault();
-        console.log(this.getQueryVariable('ReturnUrl'));
-
-        //mgr.signinRedirect();
         var response = await fetch('http://localhost:5000/api/authenticate', {
             method: 'POST',
             headers: {
@@ -79,9 +75,16 @@ class Login extends React.Component
             )
         });
 
-        if(response.ok)
+        
+        const data = await response.json();
+        console.log(data);
+
+
+        if(data.isOk)
         {
-          this.props.history.push(response.redirectUrl);
+          window.location = data.redirectUrl;
+          //this.props.push();
+          //this.props.history.push(data.redirectUrl);
         }
 
     }
@@ -193,7 +196,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch
+    dispatch,
+    push
   };
 }
 
