@@ -23,6 +23,7 @@ const configuration = {
     automaticSilentRenew: true,
     loadUserInfo: true,
     triggerAuthFlow: true,
+    post_logout_redirect_uri: 'http://localhost:3000'
   };
 
 const userManager = createUserManager(configuration);
