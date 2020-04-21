@@ -15,7 +15,6 @@ constructor(props)
     {
       //this.props.history.push('/signin')
     }
-    console.log(this.props.user);
   }
 
   render() {

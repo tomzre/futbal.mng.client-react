@@ -30,7 +30,6 @@ class Logout extends React.Component
           window.location = data.postLogoutRedirectUri;
         } else {
           document.getElementById('bye').innerText = 'You can close this window. Bye!';
-          //this.props.history.push('/');
         }
       }
 
