@@ -6,10 +6,9 @@ import Dashboard from '../Pages/Dashboard';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register'
 import { history }  from '../store';
-
+import PrivateRoute  from './PrivateRoute';
+import PublicRoute from './PublicRoute';
 import CustomCallback from '../Pages/Callback'
-import { createBrowserHistory } from 'history'
-
 
 const PageNotFound = () => (
   <div>Page not found</div>
@@ -18,8 +17,17 @@ const PageNotFound = () => (
 const Routes = () => (
   <ConnectedRouter history={history} >
     <Route exact path="/" component={Home} />
-    <Route path="/signin" component={Login} />
-    <Route path="/signup" component={Register} />
+    <PrivateRoute path="/dashboard" >
+      <Dashboard/>
+      </PrivateRoute> 
+    <PublicRoute path="/signin" >
+      <Login />
+    </PublicRoute>
+    <PublicRoute path="/signup" >
+      <Register />
+    </PublicRoute>
+    {/* <Route path="/signin" component={Login} />
+    <Route path="/signup" component={Register} /> */}
     <Route path="/callback" component={CustomCallback} />
     {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />

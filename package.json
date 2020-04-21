@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
-    "immutable": "^4.0.0-rc.12"
+    "immutable": "^4.0.0-rc.12",
+    "redux-logger": "^3.0.6"
   }
 }

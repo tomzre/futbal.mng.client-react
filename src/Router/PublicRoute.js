@@ -3,7 +3,7 @@ import userManager from '../Utils/UserManager'
 import { Route, Redirect} from 'react-router';
 import { connect } from 'react-redux';
 
-function PrivateRoute({ children, ...rest }) {
+function PublicRoute({ children, ...rest }) {
     return (
       <Route
         {...rest}
@@ -13,7 +13,7 @@ function PrivateRoute({ children, ...rest }) {
           ) : (
             <Redirect
               to={{
-                pathname: "/signin",
+                pathname: "/",
                 state: { from: props.location }
               }}
             />
@@ -30,4 +30,4 @@ function PrivateRoute({ children, ...rest }) {
     };
   }
 
-export default connect(mapStateToProps, null)(PrivateRoute)
+export default connect(mapStateToProps, null)(PublicRoute)

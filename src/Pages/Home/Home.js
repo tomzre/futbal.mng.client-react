@@ -1,16 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { compose, withProps } from 'recompose';
-// import { withAuthentication } from '@axa-fr/react-oidc-context-fetch';
-import Button from '@material-ui/core/Button'
-import Oidc from 'oidc-client';
-import configuration from '../../configuration';
-import userManager from '../../Utils/UserManager'
 import { connect } from 'react-redux';
-import Header from '../../Layout/Header';
-
-
-
 
 class Home extends React.Component
 {
@@ -39,7 +29,9 @@ constructor(props)
           </Link>
       </p>
       <p>
-        
+      <Link to='/dashboard'>
+          Dashboard
+          </Link>
       </p>
       <p>
         
