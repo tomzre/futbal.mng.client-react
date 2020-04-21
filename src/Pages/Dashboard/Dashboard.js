@@ -1,19 +1,27 @@
 import React from 'react';
+import userManager from '../../Utils/UserManager'
 
-const Dashboard = () => {
+class Dashboard extends React.Component {
   
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Protected Dashboard</p>
-      <p>
-        <span>
-          Hello World
-        </span>
-      </p>
-      <button >logout</button>
-    </div>
-  );
-};
+    logout(){
+        userManager.signoutRedirect();
+    }
+
+    render(){
+        return (
+            <div>
+              <h1>Dashboard</h1>
+              <p>Protected Dashboard</p>
+              <p>
+                <span>
+                  Hello World
+                </span>
+              </p>
+              <button onClick={this.logout}>logout</button>
+            </div>
+          );
+        };
+    }
+  
 
 export default Dashboard;

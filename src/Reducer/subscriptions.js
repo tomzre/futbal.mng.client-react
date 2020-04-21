@@ -16,7 +16,7 @@ export default function reducer(state = initialState, action) {
       return {...state, channels: action.payload};
       //Object.assign({}, state, { channels: action.payload });
     case LOAD_USER_ERROR:
-      return {...state};
+      return {...state, channels: []};
     default:
       return state;
   }

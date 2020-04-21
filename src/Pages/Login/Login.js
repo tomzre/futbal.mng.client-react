@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import userManager from '../../Utils/UserManager';
 import { push } from 'connected-react-router'
-
+import Alert from '@material-ui/lab/Alert';
 
 class Login extends React.Component 
 {
@@ -22,7 +22,9 @@ class Login extends React.Component
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            formErrors: ''
+
         }
         const { user } = props;
         this.handleChange = this.handleChange.bind(this);
@@ -73,7 +75,11 @@ class Login extends React.Component
 
         
         const data = await response.json();
-        console.log(data);
+        
+        if(data.status === 401)
+        {
+          this.setState({formErrors: 'Wrong username or password!'})
+        }
 
 
         if(data.isOk)
@@ -151,7 +157,13 @@ class Login extends React.Component
             <Box mt={5}>
               {/* <Copyright /> */}
             </Box>
-          </Container>  
+            {this.state.formErrors !== '' &&
+            <Alert onClose={() => {}} severity="error">
+              {this.state.formErrors}
+            </Alert>
+        }
+          </Container> 
+           
         )
     }
 }

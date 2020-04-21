@@ -2,6 +2,7 @@ import React from 'react';
 import userManager from '../Utils/UserManager'
 import { Route, Redirect} from 'react-router';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 function PrivateRoute({ children, ...rest }) {
     return (
@@ -11,12 +12,13 @@ function PrivateRoute({ children, ...rest }) {
           props.user !== null ? (
             children
           ) : (
-            <Redirect
-              to={{
-                pathname: "/signin",
-                state: { from: props.location }
-              }}
-            />
+            props.push("/")
+            // <Redirect
+            //   to={{
+            //     pathname: "/signin",
+            //     state: { from: props.location }
+            //   }}
+            // />
           )
         }
       />
@@ -24,10 +26,18 @@ function PrivateRoute({ children, ...rest }) {
   }
 
   function mapStateToProps(state) {
-      console.log(state.oidc.user);
+      const user = state.oidc.user;
+      console.log(user);
     return {
-      user: state.oidc.user
+      user
     };
   }
 
-export default connect(mapStateToProps, null)(PrivateRoute)
+  function mapDispatchToProps(dispatch) {
+    return {
+      dispatch,
+      push
+    };
+  }
+
+export default connect(mapStateToProps, mapDispatchToProps)(PrivateRoute)

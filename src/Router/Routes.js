@@ -9,6 +9,7 @@ import { history }  from '../store';
 import PrivateRoute  from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import CustomCallback from '../Pages/Callback'
+import Logout from '../Pages/Logout';
 
 const PageNotFound = () => (
   <div>Page not found</div>
@@ -26,9 +27,8 @@ const Routes = () => (
     <PublicRoute path="/signup" >
       <Register />
     </PublicRoute>
-    {/* <Route path="/signin" component={Login} />
-    <Route path="/signup" component={Register} /> */}
     <Route path="/callback" component={CustomCallback} />
+    <Route path="/logout" component={Logout} />
     {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />
     <Route path="/home" component={Home} /> */}

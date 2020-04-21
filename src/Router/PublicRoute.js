@@ -2,6 +2,7 @@ import React from 'react';
 import userManager from '../Utils/UserManager'
 import { Route, Redirect} from 'react-router';
 import { connect } from 'react-redux';
+import { push } from 'connected-react-router';
 
 function PublicRoute({ children, ...rest }) {
     return (
@@ -11,12 +12,13 @@ function PublicRoute({ children, ...rest }) {
           props.user !== null ? (
             children
           ) : (
-            <Redirect
-              to={{
-                pathname: "/",
-                state: { from: props.location }
-              }}
-            />
+            props.push("/")
+            // <Redirect
+            //   to={{
+            //     pathname: "/",
+            //     state: { from: props.location }
+            //   }}
+            // />
           )
         }
       />
