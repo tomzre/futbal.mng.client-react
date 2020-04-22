@@ -10,6 +10,7 @@ import PrivateRoute  from './PrivateRoute';
 import PublicRoute from './PublicRoute';
 import CustomCallback from '../Pages/Callback'
 import Logout from '../Pages/Logout';
+import Header from '../Layout/Header';
 
 const PageNotFound = () => (
   <div>Page not found</div>
@@ -17,15 +18,21 @@ const PageNotFound = () => (
 
 const Routes = () => (
   <ConnectedRouter history={history} >
-    <Route exact path="/" component={Home} />
+    <Route exact path="/" render={() => <Header><Home /></Header>} />
     <PrivateRoute path="/dashboard" >
-      <Dashboard/>
+        <Header>
+          <Dashboard/>
+        </Header>
       </PrivateRoute> 
     <PublicRoute path="/signin" >
-      <Login />
+      <Header>
+        <Login />
+      </Header>
     </PublicRoute>
     <PublicRoute path="/signup" >
+    <Header>
       <Register />
+    </Header>
     </PublicRoute>
     <Route path="/callback" component={CustomCallback} />
     <Route path="/logout" component={Logout} />
