@@ -7,11 +7,6 @@ class Dashboard extends React.Component {
     super(props);
     const { user } = props;
   }
-
-  logout = () =>  {
-    const user = this.props.user;
-    if (user !== null) userManager.signoutRedirect(user.id_token);
-  }
   
   render() {
     return (
@@ -23,7 +18,6 @@ class Dashboard extends React.Component {
             Hello World
                 </span>
         </p>
-        <button onClick={this.logout}>logout</button>
       </div>
     );
   };

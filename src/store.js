@@ -5,6 +5,7 @@ import userManager from "./Utils/UserManager";
 import { createBrowserHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router/immutable'
 import { createLogger } from 'redux-logger';
+import thunk from 'redux-thunk';
 
 
 export const history = createBrowserHistory()
@@ -16,7 +17,7 @@ const logger = createLogger({
 })
 
 const createStoreWithMiddleware = compose(
-  applyMiddleware(logger, routerMiddleware(history))
+  applyMiddleware(thunk, routerMiddleware(history), logger)
 )(createStore);
 
 const store = createStoreWithMiddleware(reducer(history), initialState);

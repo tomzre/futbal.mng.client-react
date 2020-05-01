@@ -15,6 +15,8 @@ import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
 import { Link } from 'react-router-dom';
+import * as types from '../Actions';
+import userManager from '../Utils/UserManager';
 
 const useStyles = (theme) => ({
     root: {
@@ -31,30 +33,30 @@ const useStyles = (theme) => ({
 class Header extends React.Component {
     constructor(props) {
         super(props);
-        const { user } = props;
+        const { user, location } = props;
         
         this.handleMenu = this.handleMenu.bind(this);
         this.handleClose = this.handleClose.bind(this);
-        this.handleChange = this.handleChange.bind(this);
     }
-
-    handleChange = (event) => {
-       // this.state.setAuth(event.target.checked);
-    };
-
-
     handleMenu = (event) => {
-        console.log(event);
-        this.props.setAnchorEl(event.currentTarget);
+        this.props.dispatch(types.openMenu({open: true, anchorEl: event.currentTarget}));
+        
     };
+
+    logout = () =>  {
+        const user = this.props.user;
+        if (user !== null) userManager.signoutRedirect(user.id_token);
+        this.handleClose();
+      }
 
     handleClose = () => {
-        this.props.setAnchorEl(null);
+        this.props.dispatch(types.closeMenu({open: false, anchorEl: null}));
     };
-
+    goToLoginPage = (event) => {
+        if(this.props.location.pathname === '/signin') event.preventDefault();
+    }
     render() {
-    const { classes, user, open, anchorEl } = this.props;
-    console.log(this.props);
+    const { classes, user, open, anchorEl, location } = this.props;
         return (
             <div className={classes.root}>
                 <AppBar position="static">
@@ -62,11 +64,11 @@ class Header extends React.Component {
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link to="/" >
+                        <Link color="inherit" to="/" >
                             Home
                             </Link>
                         {(user === null || user?.expired) ? 
-                        ( <Link to="/signin" >
+                        ( <Link color="inherit" onClick={this.goToLoginPage} to="/signin" >
                                 Login
                             </Link>
                         ) :
@@ -97,7 +99,9 @@ class Header extends React.Component {
                                     onClose={this.handleClose}
                                 >
                                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}>My account</MenuItem>
+                                    <MenuItem onClick={this.handleClose}><Link to="/dashboard">My account</Link></MenuItem>
+                                    <MenuItem onClick={this.logout}>Logout</MenuItem>
+
                                 </Menu>
                             </div>
                         )}
@@ -112,9 +116,9 @@ class Header extends React.Component {
 
 function mapStateToProps(state) {
     return {
-        setAnchorEl: () => null,
-        anchorEl: null,
-        open: false,
+        location: state.router.location,
+        anchorEl: state.subscriptions.anchorEl,
+        open: state.subscriptions.open,
         user: state.oidc.user
     };
   }
