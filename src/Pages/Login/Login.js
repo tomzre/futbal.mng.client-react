@@ -15,7 +15,6 @@ import { connect } from 'react-redux';
 import userManager from '../../Utils/UserManager';
 import { push } from 'connected-react-router'
 import Alert from '@material-ui/lab/Alert';
-import axios from 'axios';
 import * as types from '../../Actions';
 
 class Login extends React.Component {
@@ -69,13 +68,11 @@ class Login extends React.Component {
     this.props.dispatch((dispatch) => {
       dispatch(types.requestLogin(payload));
     });
-    let response = this.props.login.body.data;
-    
-    
-    // if(response?.isOk) {
-    //   window.location = response.returnUrl;
-    // }
+  }
 
+  closeError = () =>
+  {
+    this.props.dispatch(types.closeError());
   }
   
   render() {
@@ -148,7 +145,7 @@ class Login extends React.Component {
           {/* <Copyright /> */}
         </Box>
         {this.props.login.error !== null &&
-          <Alert onClose={() => { }} severity="error">
+          <Alert onClose={this.closeError} severity="error">
             {this.props.login.error}
           </Alert>
         }

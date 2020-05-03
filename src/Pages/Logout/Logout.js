@@ -9,7 +9,7 @@ class Logout extends React.Component
     }
     async logMeOut() {
         var query = window.location.search;
-        var logoutIdQuery = query && query.toLowerCase().indexOf('?logoutid=') == 0 && query;
+        var logoutIdQuery = query && query.toLowerCase().indexOf('?logoutid=') === 0 && query;
 
         const response = await fetch('http://localhost:5000/api/authenticate/logout' + logoutIdQuery, {
           credentials: 'include'
@@ -27,7 +27,9 @@ class Logout extends React.Component
         }
 
         if (data.postLogoutRedirectUri) {
-          window.location = data.postLogoutRedirectUri;
+          setTimeout(() => {
+            window.location = data.postLogoutRedirectUri;
+          },3500)
         } else {
           document.getElementById('bye').innerText = 'You can close this window. Bye!';
         }

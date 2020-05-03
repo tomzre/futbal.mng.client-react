@@ -1,6 +1,5 @@
-import { LOAD_SUBSCRIPTIONS_SUCCESS, OPEN_MENU, CLOSE_MENU, REQUEST_LOGIN, RECEIVED_LOGIN_SUCCESS, RECEIVED_LOGIN_ERROR } from "../Actions";
+import { LOAD_SUBSCRIPTIONS_SUCCESS, OPEN_MENU, CLOSE_MENU, REQUEST_LOGIN, RECEIVED_LOGIN_SUCCESS, RECEIVED_LOGIN_ERROR, CLOSE_ERROR } from "../Actions";
 import { SESSION_TERMINATED, USER_EXPIRED, USER_SIGNED_OUT, LOAD_USER_ERROR } from "redux-oidc";
-import { CardActions } from "@material-ui/core";
 
 const initialState = {
   channels: [],
@@ -37,6 +36,8 @@ export default function reducer(state = initialState, action) {
       return {...state, login: {body: action.payload, isLoading: false, error: null}}
     case RECEIVED_LOGIN_ERROR:
       return {...state, login: {body: null, isLoading: false, error: 'Invalid username or password.'}}
+    case CLOSE_ERROR:
+      return {...state, login: {body: null, isLoading: false, error: null}}
     default:
       return state;
   }

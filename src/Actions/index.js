@@ -11,6 +11,7 @@ export const CLOSE_MENU = "futbal-mng/CLOSE_MENU";
 export const REQUEST_LOGIN = "futbal-mng/REQUEST_LOGIN";
 export const RECEIVED_LOGIN_SUCCESS = "futbal-mng/RECEIVED_LOGIN_SUCCESS";
 export const RECEIVED_LOGIN_ERROR = "futbal-mng/RECEIVED_LOGIN_ERROR";
+export const CLOSE_ERROR = "futbal-mng/CLOSE_ERROR";
 
 export function loadSubscriptionsStart() {
   return {
@@ -45,6 +46,14 @@ export function closeMenu(open) {
   };
 }
 
+export function closeError()
+{
+  return{
+    type: CLOSE_ERROR,
+    payload: null
+  };
+}
+
 export function requestLogin(loginData) {
   return async (dispatch) => {
     dispatch({type: REQUEST_LOGIN, payload: loginData});
@@ -67,7 +76,6 @@ export function requestLogin(loginData) {
     } catch (error) {
       console.error(error);
       dispatch({type: RECEIVED_LOGIN_ERROR, payload: error});
-      // this.setState({ formErrors: 'Wrong username or password!' });
     }
   }
 }
@@ -79,31 +87,5 @@ export function receivedLogin(response) {
   return {
     type: RECEIVED_LOGIN_SUCCESS,
     payload: response
-  }
-}
-
-async function makeLoginRequest(payload) {
-  let axiosConfig = {
-    withCredentials: true,
-    headers: {
-      'Content-Type': 'application/json;charset=UTF-8',
-      "Access-Control-Allow-Origin": "*",
-    }
-  };
-  let response = {};
-
-  try {
-    response = await axios.post('http://localhost:5000/api/authenticate',
-      payload,
-      axiosConfig
-    );
-
-    if (response.data.isOk) {
-      window.location = response.data.redirectUrl;
-    }
-
-  } catch (error) {
-    console.error(error);
-    this.setState({ formErrors: 'Wrong username or password!' });
   }
 }
