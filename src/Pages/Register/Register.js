@@ -66,11 +66,18 @@ class Register extends React.Component {
       });
     }else{
       var temp = [];
-      var dataWithKeys = data.map(error => 
+      data.map(error => 
         temp.push({id: shortid.generate(), code: error.code, description: error.description}))
       this.setState({ formErrors: temp });
     }
+  }
 
+  closeError = (errorId) => 
+  {
+    let errors = this.state.formErrors.filter(e => {
+      return e.id !== errorId
+    })
+    this.setState({formErrors: errors});
   }
   classes = useStyles();
 
@@ -172,7 +179,7 @@ class Register extends React.Component {
         </div>
         {
           this.state.formErrors.map((error) =>
-            <Alert onClose={() => {}} severity="error" key={error.id}>
+            <Alert onClose={() => this.closeError(error.id)} severity="error" key={error.id}>
               {error.description}
             </Alert>)
         }

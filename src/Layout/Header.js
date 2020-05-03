@@ -1,22 +1,19 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import Switch from '@material-ui/core/Switch';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormGroup from '@material-ui/core/FormGroup';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import { push } from 'connected-react-router'
 import { connect } from 'react-redux';
 import { withStyles } from '@material-ui/styles';
-import { Link } from 'react-router-dom';
+import Link from '@material-ui/core/Link';
 import * as types from '../Actions';
 import userManager from '../Utils/UserManager';
+import { Link as RouterLink } from 'react-router-dom';
+import Box from '@material-ui/core/Box';
 
 const useStyles = (theme) => ({
     root: {
@@ -64,13 +61,18 @@ class Header extends React.Component {
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                             <MenuIcon />
                         </IconButton>
-                        <Link color="inherit" to="/" >
-                            Home
+                        <Box p={1}>
+                            <Link component={RouterLink} color="inherit" to="/" >
+                                Home
                             </Link>
+                        </Box>
                         {(user === null || user?.expired) ? 
-                        ( <Link color="inherit" onClick={this.goToLoginPage} to="/signin" >
+                        (
+                        <Box p={1}>
+                            <Link p={2} component={RouterLink} color="inherit" onClick={this.goToLoginPage} to="/signin" >
                                 Login
                             </Link>
+                        </Box> 
                         ) :
                          (
                             <div>
