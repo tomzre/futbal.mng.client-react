@@ -1,30 +1,32 @@
 import React from 'react';
-import { useReactOidc } from '@axa-fr/react-oidc-context';
+import userManager from '../../Utils/UserManager'
+import { connect } from 'react-redux';
 
-const Dashboard = () => {
-  const { oidcUser, logout, events } = useReactOidc();
-  const { profile } = oidcUser;
-  const addUserEvent = user => console.log(`********* User Loaded :${user.profile} *********`);
+class Dashboard extends React.Component {
+  constructor(props) {
+    super(props);
+    const { user } = props;
+  }
   
-  React.useEffect(() => {
-    events.addUserLoaded(addUserEvent);
-    return () => {
-      events.removeUserLoaded(addUserEvent);
-    };
-  });
+  render() {
+    return (
+      <div>
+        <h1>Dashboard</h1>
+        <p>Protected Dashboard</p>
+        <p>
+          <span>
+            Hello World
+                </span>
+        </p>
+      </div>
+    );
+  };
+}
 
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>Protected Dashboard</p>
-      <p>
-        <span>
-          Hello {profile.given_name} {profile.family_name}
-        </span>
-      </p>
-      <button onClick={logout}>logout</button>
-    </div>
-  );
-};
+function mapStateToProps(state) {
+  return {
+    user: state.oidc.user
+  };
+}
 
-export default Dashboard;
+export default connect(mapStateToProps, null)(Dashboard);

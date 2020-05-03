@@ -1,24 +1,24 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { AuthenticationProvider, oidcLog } from '@axa-fr/react-oidc-context';
-import Header from './Layout/Header';
+import { Provider } from 'react-redux';
 import Routes from './Router';
-import oidcConfiguration from './configuration';
-
+import { OidcProvider } from 'redux-oidc';
+import userManager from './Utils/UserManager';
+import store from './store';
+import Root from './root';
 const App = () => {
   return (<div>
-    <Router>
-      <AuthenticationProvider 
-        configuration={oidcConfiguration} 
-        loggerLevel={oidcLog.DEBUG}
-        isEnabled={true}>
-        <Header />
-        <Routes />
-      </AuthenticationProvider>
-    </Router>
+    <Provider store={store}>
+      <OidcProvider store={store} userManager={userManager}>
+        {/*  */}
+        <Root>
+          <Routes />
+        </Root>
+      </OidcProvider>
+    </Provider>
   </div>
-  )};
+  )
+};
 
 render(<App />, document.getElementById('root'));
 

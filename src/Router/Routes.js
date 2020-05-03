@@ -1,26 +1,46 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import { withOidcSecure } from '@axa-fr/react-oidc-context';
-import App from '../App';
+import { ConnectedRouter } from 'connected-react-router/immutable'
+import { Route, BrowserRouter as Router } from 'react-router';
 import Home from '../Pages/Home';
 import Dashboard from '../Pages/Dashboard';
 import Login from '../Pages/Login';
 import Register from '../Pages/Register'
+import { history }  from '../store';
+import PrivateRoute  from './PrivateRoute';
+import PublicRoute from './PublicRoute';
+import CustomCallback from '../Pages/Callback'
+import Logout from '../Pages/Logout';
+import Header from '../Layout/Header';
 
 const PageNotFound = () => (
   <div>Page not found</div>
 );
 
 const Routes = () => (
-  <Switch>
-    <Route exact path="/" component={Home} />
-    <Route path="/signin" component={Login} />
-    <Route path="/signup" component={Register} />
-    <Route path="/dashboard" component={withOidcSecure(Dashboard)} />
+  <ConnectedRouter history={history} >
+    <Route exact path="/" render={() => <Header><Home /></Header>} />
+    <PrivateRoute path="/dashboard" >
+        <Header>
+          <Dashboard/>
+        </Header>
+      </PrivateRoute> 
+    <PublicRoute path="/signin" >
+      <Header>
+        <Login />
+      </Header>
+    </PublicRoute>
+    <PublicRoute path="/signup" >
+    <Header>
+      <Register />
+    </Header>
+    </PublicRoute>
+    <Route path="/callback" component={CustomCallback} />
+    <Route path="/logout" component={Logout} />
+    {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />
     <Route path="/home" component={Home} /> */}
     <Route component={PageNotFound} />
-  </Switch>
+  </ConnectedRouter>
 );
 
 export default Routes;
