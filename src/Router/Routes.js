@@ -11,6 +11,7 @@ import PublicRoute from './PublicRoute';
 import CustomCallback from '../Pages/Callback'
 import Logout from '../Pages/Logout';
 import Header from '../Layout/Header';
+import { SilentCallback } from '../Pages/Callback/SilentCallback';
 
 const PageNotFound = () => (
   <div>Page not found</div>
@@ -35,7 +36,9 @@ const Routes = () => (
     </Header>
     </PublicRoute>
     <Route path="/callback" component={CustomCallback} />
+    <Route path="/silent" component={SilentCallback} />
     <Route path="/logout" component={Logout} />
+
     {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />
     <Route path="/home" component={Home} /> */}

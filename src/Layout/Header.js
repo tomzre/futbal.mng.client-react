@@ -75,7 +75,7 @@ class Header extends React.Component {
                         </Box> 
                         ) :
                          (
-                            <div>
+                            <Box mr={2}>
                                 <IconButton
                                     aria-label="account of current user"
                                     aria-controls="menu-appbar"
@@ -105,7 +105,7 @@ class Header extends React.Component {
                                     <MenuItem onClick={this.logout}>Logout</MenuItem>
 
                                 </Menu>
-                            </div>
+                            </Box>
                         )}
                     </Toolbar>
                 </AppBar>
