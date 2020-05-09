@@ -50,7 +50,9 @@ class Header extends React.Component {
         this.props.dispatch(types.closeMenu({open: false, anchorEl: null}));
     };
     goToLoginPage = (event) => {
-        if(this.props.location.pathname === '/signin') event.preventDefault();
+        //if(this.props.location.pathname === '/signin')
+        event.preventDefault();
+        userManager.signinRedirect();
     }
     render() {
     const { classes, user, open, anchorEl, location } = this.props;
@@ -101,7 +103,9 @@ class Header extends React.Component {
                                     onClose={this.handleClose}
                                 >
                                     <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-                                    <MenuItem onClick={this.handleClose}><Link to="/dashboard">My account</Link></MenuItem>
+                                    <MenuItem onClick={this.handleClose}>
+                                        <Link component={RouterLink} to="/dashboard">My account</Link>
+                                    </MenuItem>
                                     <MenuItem onClick={this.logout}>Logout</MenuItem>
 
                                 </Menu>
