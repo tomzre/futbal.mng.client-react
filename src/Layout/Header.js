@@ -40,9 +40,10 @@ class Header extends React.Component {
         
     };
 
-    logout = () =>  {
+    logout = async () =>  {
         const user = this.props.user;
-        if (user !== null) userManager.signoutRedirect(user.id_token);
+        this.props.dispatch(push('/prelogout'));
+        if (user !== null) await userManager.signoutRedirect(user.id_token);
         this.handleClose();
       }
 
@@ -63,21 +64,21 @@ class Header extends React.Component {
                         <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                             <MenuIcon />
                         </IconButton>
-                        <Box p={1}>
+                        <Box display="flex" p={1}>
                             <Link component={RouterLink} color="inherit" to="/" >
                                 Home
                             </Link>
                         </Box>
                         {(user === null || user?.expired) ? 
                         (
-                        <Box p={1}>
+                        <Box display="flex" p={1}>
                             <Link p={2} component={RouterLink} color="inherit" onClick={this.goToLoginPage} to="/signin" >
                                 Login
                             </Link>
                         </Box> 
                         ) :
                          (
-                            <Box mr={2}>
+                            <Box display="flex" mr={2}>
                                 <IconButton
                                     aria-label="account of current user"
                                     aria-controls="menu-appbar"

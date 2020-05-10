@@ -17,6 +17,10 @@ const PageNotFound = () => (
   <div>Page not found</div>
 );
 
+const PreLogoutPage = () => (
+  <div>logging out!</div>
+);
+
 const Routes = () => (
   <ConnectedRouter history={history} >
     <Route exact path="/" render={() => <Header><Home /></Header>} />
@@ -38,7 +42,8 @@ const Routes = () => (
     <Route path="/callback" component={CustomCallback} />
     <Route path="/silent" component={SilentCallback} />
     <Route path="/logout" component={Logout} />
-
+    <Route path="/prelogout" component={PreLogoutPage} />
+    
     {/* <Route path="/dashboard" component={withOidcSecure(Dashboard)} /> */}
     {/* <Route path="/admin" component={Admin} />
     <Route path="/home" component={Home} /> */}
