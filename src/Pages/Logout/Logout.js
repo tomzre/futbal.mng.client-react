@@ -27,9 +27,7 @@ class Logout extends React.Component
         }
 
         if (data.postLogoutRedirectUri) {
-          setTimeout(() => {
             window.location = data.postLogoutRedirectUri;
-          },3500)
         } else {
           document.getElementById('bye').innerText = 'You can close this window. Bye!';
         }
