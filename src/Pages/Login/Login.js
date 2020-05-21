@@ -24,10 +24,11 @@ class Login extends React.Component {
     this.state = {
       email: '',
       password: '',
+      externalProviders: [],
       formErrors: ''
     }
     const { user, login } = props;
-    
+
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     if ((!user
@@ -36,6 +37,18 @@ class Login extends React.Component {
       userManager.signinRedirect();
     }
   }
+
+  async componentDidMount() {
+    let response = await fetch('http://localhost:5000/api/authenticate');
+
+    let externalProviders = await response.json();
+
+    externalProviders = externalProviders.map(provider => ({ id: provider.name, body: provider }));
+
+
+    this.setState({ externalProviders: externalProviders });
+  }
+
   handleChange(event) {
     const target = event.target;
     const value = target.value;
@@ -70,11 +83,33 @@ class Login extends React.Component {
     });
   }
 
-  closeError = () =>
-  {
+  handlerExternalLogin = async (provider) => {
+
+    try {
+      await fetch("http://localhost:5000/api/authenticate/externalLogin?provider=" +
+        provider +
+        "&returnUrl=" +
+        this.getQueryVariable('ReturnUrl'),
+        {
+          method: 'GET',
+          headers: {
+            'Access-Control-Allow-Origin':  '*',
+            'Access-Control-Allow-Methods': '*',
+            'Access-Control-Allow-Headers': '*',
+            'Content-Type': 'application/json;charset=UTF-8',
+
+          }
+        });
+    } catch (error) {
+      console.error(error);
+    }
+
+  }
+
+  closeError = () => {
     this.props.dispatch(types.closeError());
   }
-  
+
   render() {
     const { classes } = this.props;
     return (
@@ -119,6 +154,9 @@ class Login extends React.Component {
               <Grid item xs={12}>
               </Grid>
             </Grid>
+            {this.state.externalProviders.map(p =>
+              <Button onClick={() => this.handlerExternalLogin(p.body.name)} key={p.id}>{p.body.name}</Button>
+            )}
             <Button
               type="submit"
               fullWidth
@@ -142,7 +180,8 @@ class Login extends React.Component {
           </form>
         </div>
         <Box mt={5}>
-          {/* <Copyright /> */}
+
+          <div className="g-signin2" data-onsuccess="onSignIn"></div>
         </Box>
         {this.props.login.error !== null &&
           <Alert onClose={this.closeError} severity="error">
