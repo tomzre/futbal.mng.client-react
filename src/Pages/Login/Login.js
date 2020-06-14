@@ -94,10 +94,7 @@ class Login extends React.Component {
           method: 'GET',
           headers: {
             'Access-Control-Allow-Origin':  '*',
-            'Access-Control-Allow-Methods': '*',
-            'Access-Control-Allow-Headers': '*',
-            'Content-Type': 'application/json;charset=UTF-8',
-
+            'Content-Type': 'application/json;charset=UTF-8'
           }
         });
     } catch (error) {

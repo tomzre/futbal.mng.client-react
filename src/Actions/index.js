@@ -10,6 +10,7 @@ export const OPEN_MENU = "futbal-mng/OPEN_MENU";
 export const CLOSE_MENU = "futbal-mng/CLOSE_MENU";
 export const REQUEST_LOGIN = "futbal-mng/REQUEST_LOGIN";
 export const RECEIVED_LOGIN_SUCCESS = "futbal-mng/RECEIVED_LOGIN_SUCCESS";
+export const RECEIVED_LOGIN_UNAUTHORIZED = "futbal-mng/RECEIVED_LOGIN_UNAUTHORIZED";
 export const RECEIVED_LOGIN_ERROR = "futbal-mng/RECEIVED_LOGIN_ERROR";
 export const CLOSE_ERROR = "futbal-mng/CLOSE_ERROR";
 
@@ -46,9 +47,8 @@ export function closeMenu(open) {
   };
 }
 
-export function closeError()
-{
-  return{
+export function closeError() {
+  return {
     type: CLOSE_ERROR,
     payload: null
   };
@@ -56,7 +56,7 @@ export function closeError()
 
 export function requestLogin(loginData) {
   return async (dispatch) => {
-    dispatch({type: REQUEST_LOGIN, payload: loginData});
+    dispatch({ type: REQUEST_LOGIN, payload: loginData });
 
     let axiosConfig = {
       withCredentials: true,
@@ -67,15 +67,30 @@ export function requestLogin(loginData) {
     };
     let response = {};
 
+
+    const axiosInstance = axios.create(axiosConfig);
+    axiosInstance.interceptors.response.use(
+      response => response,
+      error => {
+        const { status } = error.response;
+        if (status === 401) {
+          dispatch({ type: RECEIVED_LOGIN_UNAUTHORIZED, payload: error });
+        }
+        else {
+          dispatch({ type: RECEIVED_LOGIN_ERROR, payload: error });
+        }
+        return Promise.reject(error);
+      }
+    )
     try {
-      response = await axios.post('http://localhost:5000/api/authenticate',
-        loginData,
-        axiosConfig
-      );
+      response = await axiosInstance.post('http://localhost:5000/api/authenticate', loginData);
+      // await axios.post('http://localhost:5000/api/authenticate',
+      //   loginData,
+      //   axiosConfig
+      // );
       dispatch(this.receivedLogin(response));
     } catch (error) {
       console.error(error);
-      dispatch({type: RECEIVED_LOGIN_ERROR, payload: error});
     }
   }
 }

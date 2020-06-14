@@ -1,4 +1,4 @@
-import { LOAD_SUBSCRIPTIONS_SUCCESS, OPEN_MENU, CLOSE_MENU, REQUEST_LOGIN, RECEIVED_LOGIN_SUCCESS, RECEIVED_LOGIN_ERROR, CLOSE_ERROR } from "../Actions";
+import { LOAD_SUBSCRIPTIONS_SUCCESS, OPEN_MENU, CLOSE_MENU, REQUEST_LOGIN, RECEIVED_LOGIN_SUCCESS, RECEIVED_LOGIN_UNAUTHORIZED, RECEIVED_LOGIN_ERROR, CLOSE_ERROR } from "../Actions";
 import { SESSION_TERMINATED, SILENT_RENEW_ERROR, USER_EXPIRED, USER_SIGNED_OUT, LOAD_USER_ERROR } from "redux-oidc";
 
 const initialState = {
@@ -35,8 +35,10 @@ export default function reducer(state = initialState, action) {
       return {...state, login: { body: action.payload, isLoading: true, error: null}}
     case RECEIVED_LOGIN_SUCCESS:
       return {...state, login: {body: action.payload, isLoading: false, error: null}}
-    case RECEIVED_LOGIN_ERROR:
+    case RECEIVED_LOGIN_UNAUTHORIZED:
       return {...state, login: {body: null, isLoading: false, error: 'Invalid username or password.'}}
+    case RECEIVED_LOGIN_ERROR:
+      return {...state, login: {body: null, isLoading: false, error: 'Failed to connect with server.'}}
     case CLOSE_ERROR:
       return {...state, login: {body: null, isLoading: false, error: null}}
     default:
