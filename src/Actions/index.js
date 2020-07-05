@@ -84,10 +84,7 @@ export function requestLogin(loginData) {
     )
     try {
       response = await axiosInstance.post('http://localhost:5000/api/authenticate', loginData);
-      // await axios.post('http://localhost:5000/api/authenticate',
-      //   loginData,
-      //   axiosConfig
-      // );
+      
       dispatch(this.receivedLogin(response));
     } catch (error) {
       console.error(error);

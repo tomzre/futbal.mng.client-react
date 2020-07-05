@@ -39,7 +39,14 @@ class Login extends React.Component {
   }
 
   async componentDidMount() {
-    let response = await fetch('http://localhost:5000/api/authenticate');
+    let response = await fetch('http://localhost:5000/api/authenticate', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json;charset=UTF-8',
+        'Access-Control-Allow-Origin': 'http://localhost:3000',
+        'Accept-Encoding': 'gzip'
+      }
+    });
 
     let externalProviders = await response.json();
 
