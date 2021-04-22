@@ -26,6 +26,19 @@ const configuration = {
     //post_logout_redirect_uri: 'http://localhost:3000'
   };
 
-const userManager = createUserManager(configuration);
+  const config = {
+    client_id: 'oauthClient',
+    redirect_uri: 'http://localhost:3000/callback',
+    response_type: 'code',
+    post_logout_redirect_uri: 'http://localhost:3000',
+    scope: 'openid profile api1.read',
+    authority: 'https://localhost:5001',
+    silent_redirect_uri: 'http://localhost:3000/silent',
+    automaticSilentRenew: true,
+    loadUserInfo: true,
+    triggerAuthFlow: true,
+  }
+
+const userManager = createUserManager(config);
 
 export default userManager;

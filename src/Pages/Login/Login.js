@@ -33,25 +33,32 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     if ((!user
       || user.expired)
-      && !this.getQueryVariable('ReturnUrl')) {
+      && !this.getQueryVariable('returnUrl')) {
       userManager.signinRedirect();
     }
   }
 
   async componentDidMount() {
-    let response = await fetch('http://localhost:5000/api/authenticate', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json;charset=UTF-8',
-        'Access-Control-Allow-Origin': 'http://localhost:3000',
-        'Accept-Encoding': 'gzip'
+    let externalProviders = [];
+    try {
+      let response = await fetch('https://localhost:5001/api/authenticate', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+          'Access-Control-Allow-Origin': 'http://localhost:3000',
+          'Accept-Encoding': 'gzip'
+        }
+      });
+      console.log(response);
+      if(response.status === 200)
+      {
+        externalProviders = await response.json();
       }
-    });
-
-    let externalProviders = await response.json();
+    } catch (e) {
+      console.error(e);
+    }
 
     externalProviders = externalProviders.map(provider => ({ id: provider.name, body: provider }));
-
 
     this.setState({ externalProviders: externalProviders });
   }
@@ -82,9 +89,9 @@ class Login extends React.Component {
     let payload = {
       password: this.state.password,
       username: this.state.email,
-      returnUrl: this.getQueryVariable('ReturnUrl')
+      returnUrl: this.getQueryVariable('returnUrl')
     };
-
+    console.log(payload.returnUrl);
     this.props.dispatch((dispatch) => {
       dispatch(types.requestLogin(payload));
     });
@@ -93,14 +100,14 @@ class Login extends React.Component {
   handlerExternalLogin = async (provider) => {
 
     try {
-      await fetch("http://localhost:5000/api/authenticate/externalLogin?provider=" +
+      await fetch("https://localhost:5001/api/authenticate/externalLogin?provider=" +
         provider +
         "&returnUrl=" +
         this.getQueryVariable('ReturnUrl'),
         {
           method: 'GET',
           headers: {
-            'Access-Control-Allow-Origin':  '*',
+            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json;charset=UTF-8'
           }
         });

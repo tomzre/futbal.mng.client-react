@@ -1,17 +1,12 @@
-import React from 'react';
-import userManager from '../../Utils/UserManager'
-import { connect } from 'react-redux';
-
 import { useEffect, useState } from 'react';
-import Pagination from './pagination';
-import Table from './table';
+import Pagination from '../components/pagination';
+import Table from '../components/table';
 
-let Dashboard = ({...props}) => {
+let Page = () => {
     const [users, setUsers] = useState([]);
     const [count, setCount] = useState(0);
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(3);
-    const token = props.user.access_token;
 
     useEffect( () => {
         fetchData(1, pageSize);
@@ -34,12 +29,7 @@ let Dashboard = ({...props}) => {
     let fetchData = async (page, pageSize) =>
     {
         try {
-            let response = await fetch(`https://localhost:5001/api/users?pageIndex=${page}&pageSize=${pageSize}`,
-            {
-              headers: {
-                'Authorization' : 'Bearer ' + token
-              }});
-
+            let response = await fetch(`https://localhost:5001/api/users?pageIndex=${page}&pageSize=${pageSize}`);
             let json = await response.json();
             setUsers(json.data);
             setCount(json.count);
@@ -79,10 +69,4 @@ let Dashboard = ({...props}) => {
     )
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.oidc.user
-  };
-}
-
-export default connect(mapStateToProps, null)(Dashboard);
+export default Page
